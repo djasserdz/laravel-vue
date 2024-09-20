@@ -17,9 +17,10 @@ class Usercontroller extends Controller
         return Inertia::render('users/profile',[
             'true'=>session('updated'),
             'user'=>$request->user(),
+            'status'=>session('status'),
         ]);
     }
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user,)
     {
         $user=auth()->user();
 
@@ -27,14 +28,26 @@ class Usercontroller extends Controller
         'username'=>['required'],
         'email'=>['required']
        ]);
-       $user->update([
-        'username'=>$request->input('username'),
-        'email'=>$request->input('email'),
-       ]);
 
+       if($request->has('email') && $user->email!=$request->email){
+           $request->user()->email_verified_at = null;
+          $user->update([
+            'email'=>$request->input('email'),
+          ]);
+          $request->user()->sendEmailVerificationNotification();
 
+          return back()->with('status', 'Email verification link was sent.');
+       }
+       else{
+        $user->update([
+            'username'=>$request->input('username'),
+        ]);
         return back()->with('updated','information updated');
     }
+       }
+
+
+
 
     /**
      * Remove the specified resource from storage.

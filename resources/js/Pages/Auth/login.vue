@@ -40,7 +40,7 @@ const submit=()=>{
 
           <div class="flex items-center justify-between">
             <label for=""><input type="checkbox" v-model="form.remember">Remember me?</label>
-            <textlink link="Forgot Password?" routename="home"/>
+            <textlink link="Forgot Password?" routename="password.request"/>
           </div>
 
 

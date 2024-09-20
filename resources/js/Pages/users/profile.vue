@@ -9,6 +9,7 @@ import  {useForm}  from '@inertiajs/vue3';
 const props=defineProps({
     updated:String,
     user:Object,
+    status:String,
 })
 
 
@@ -20,7 +21,7 @@ const form=useForm({
 });
 
 const submit=()=>{
-    console.log(form)
+    console.log(props.user);
     form.put(route('profile.update'));
 }
 </script>
@@ -31,6 +32,7 @@ const submit=()=>{
     <Tilte text="update information"/><br>
     <p>Update information username or email</p>
     <p v-if="updated">{{ updated }}</p>
+    <p v-if="status">{{ status }}</p>
     <form @submit.prevent="submit">
     <inputfield icon="user" placeholder="username" label="username" v-model="form.username" />
      <error v-if="form.errors.username">{{ form.errors.username }}</error>
